@@ -26,3 +26,17 @@ RUN curl -fsSL https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/dow
 
 # Firecrawl CLI (the firecrawl plugin skill drives it; reads FIRECRAWL_API_KEY)
 RUN npm install -g firecrawl-cli@1.8.0
+
+# file(1) + Postgres client tools (psql, pg_isready) — common dev needs
+RUN apt-get update && apt-get install -y --no-install-recommends file postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# just (task runner; not in bookworm's repos)
+ARG JUST_VERSION=1.57.0
+RUN curl -fsSL https://github.com/casey/just/releases/download/${JUST_VERSION}/just-${JUST_VERSION}-aarch64-unknown-linux-musl.tar.gz \
+    | tar -xz -C /usr/local/bin just
+
+# uv (Python toolchain manager; the base image's copy is absent from the agent PATH)
+ARG UV_VERSION=0.12.0
+RUN curl -fsSL https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-aarch64-unknown-linux-gnu.tar.gz \
+    | tar -xz --strip-components=1 -C /usr/local/bin
