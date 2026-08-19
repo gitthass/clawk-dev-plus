@@ -13,6 +13,10 @@ Adds on top of `ghcr.io/clawkwork/clawk-dev:v0`:
 - Docker Compose v2 plugin
 - `glab` (GitLab CLI, arm64)
 - `firecrawl-cli`
+- `file`, `postgresql-client` (psql, pg_isready)
+- `just`, `uv`
+- `python3` with pip and venv (bookworm's 3.11)
+- `pnpm`
 
 ## Use
 

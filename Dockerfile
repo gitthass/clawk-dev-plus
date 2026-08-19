@@ -40,3 +40,13 @@ RUN curl -fsSL https://github.com/casey/just/releases/download/${JUST_VERSION}/j
 ARG UV_VERSION=0.12.0
 RUN curl -fsSL https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-aarch64-unknown-linux-gnu.tar.gz \
     | tar -xz --strip-components=1 -C /usr/local/bin
+
+# System Python (bookworm's 3.11) with pip and venv. uv above manages project
+# toolchains, but plain `python3` is what ad-hoc scripts and tooling probe for.
+# Debian's pip is externally managed (PEP 668), so install into a venv or use uv.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python3 python3-pip python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# pnpm (lands in NPM_CONFIG_PREFIX=/usr/local/npm-global, already on PATH)
+RUN npm install -g pnpm@11.22.0
