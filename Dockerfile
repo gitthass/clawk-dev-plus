@@ -50,3 +50,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # pnpm (lands in NPM_CONFIG_PREFIX=/usr/local/npm-global, already on PATH)
 RUN npm install -g pnpm@11.22.0
+
+# Cloudflare Wrangler (reads CLOUDFLARE_API_TOKEN; bundles workerd, so plain
+# `wrangler dev` runs locally with no token and no egress). Base is node:22,
+# which satisfies wrangler 4's >=22 engine floor.
+RUN npm install -g wrangler@4.127.0
