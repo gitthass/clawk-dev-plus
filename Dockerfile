@@ -64,3 +64,12 @@ RUN npm install -g wrangler@4.127.0
 # copy at the same NPM_CONFIG_PREFIX path, so bumping the ARG moves the fleet.
 ARG PI_VERSION=0.87.1
 RUN npm install -g @earendil-works/pi-coding-agent@${PI_VERSION}
+
+# Claude Code. Unlike pi it DOES self-update — as the `agent` user, into this
+# same npm-global prefix — so without a pin every guest re-downloads whatever
+# npm calls latest shortly after each boot, and two sandboxes booted either
+# side of a release run different versions. Pinning here only holds if the
+# updater is off: set `DISABLE_AUTOUPDATER = 1` in the host-wide clawk.mod env
+# block, or it overwrites this bake minutes into the boot.
+ARG CLAUDE_CODE_VERSION=2.1.283
+RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
