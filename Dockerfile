@@ -55,3 +55,12 @@ RUN npm install -g pnpm@11.22.0
 # `wrangler dev` runs locally with no token and no egress). Base is node:22,
 # which satisfies wrangler 4's >=22 engine floor.
 RUN npm install -g wrangler@4.127.0
+
+# pi (the coding agent). The base image already ships one, but nothing ever
+# updates it: the rootfs is re-cloned from this image on every boot, pi has no
+# self-updater, and provisioning does not touch it — so a guest stays on the
+# base's version forever, through `down`/`up` and destroy/create alike. Device
+# state 2026-09-27: every sandbox was on 0.84.1. This layer replaces the base's
+# copy at the same NPM_CONFIG_PREFIX path, so bumping the ARG moves the fleet.
+ARG PI_VERSION=0.87.1
+RUN npm install -g @earendil-works/pi-coding-agent@${PI_VERSION}
