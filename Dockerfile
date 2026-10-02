@@ -62,7 +62,7 @@ RUN npm install -g wrangler@4.127.0
 # base's version forever, through `down`/`up` and destroy/create alike. Device
 # state 2026-09-27: every sandbox was on 0.84.1. This layer replaces the base's
 # copy at the same NPM_CONFIG_PREFIX path, so bumping the ARG moves the fleet.
-ARG PI_VERSION=0.87.1
+ARG PI_VERSION=1.0.0
 RUN npm install -g @earendil-works/pi-coding-agent@${PI_VERSION}
 
 # Claude Code. Unlike pi it DOES self-update — as the `agent` user, into this
